@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>數字打字練習</title>
+<style>
+#gameArea {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#currentNumber {
+  margin-bottom: 20px;
+}
+
+#userInput {
+  font-size: 36px;
+  width: 50px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<audio id="finishSound" src="圓圓答對了.m4a"></audio>
+
+<div id="gameArea">
+  <p id="currentNumber">0</p>
+  <input type="text" id="userInput" autofocus>
+</div>
+
+<script>
+const numbers = Array.from({length: 30}, (_, i) => i + 1).map(String); // 生成 1-30 的數字陣列
+const currentNumberElement = document.getElementById("currentNumber");
+const userInput = document.getElementById("userInput");
+const finishSound = document.getElementById("finishSound");
+
+let currentNumberIndex = 0;
+
+
+
+userInput.addEventListener("input", () => {
+  const inputText = userInput.value.trim();
+  const currentNumber = numbers[currentNumberIndex];
+
+  if (inputText === currentNumber) {
+    // 使用 SpeechSynthesisUtterance 產生語音
+    //const utterance = new SpeechSynthesisUtterance(currentNumber);
+    // 可選：設定語音語言 (zh-TW 為台灣國語)
+    //utterance.lang = 'zh-TW'; 
+    //window.speechSynthesis.speak(utterance);
+    finishSound.play()
+    currentNumberIndex++;
+    userInput.value = "";
+    
+    if (currentNumberIndex === numbers.length) {
+      finishSound.play()
+      alert("你太棒啦，你是第一名的小圓圓！");
+      currentNumberIndex = 0;
+    }
+ 
+
+    showCurrentNumber();
+  }
+});
+
+function showCurrentNumber() {
+  currentNumberElement.textContent = numbers[currentNumberIndex];
+}
+</script>
+
+</body>
+</html>
